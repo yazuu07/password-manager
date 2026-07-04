@@ -1,4 +1,3 @@
-@"
 import json
 import os
 from typing import Dict, Optional
@@ -14,6 +13,7 @@ class Vault:
         self._load()
     
     def _load(self):
+        """Load and decrypt the vault from disk."""
         if not os.path.exists(VAULT_FILE):
             self.entries = {}
             return
@@ -37,6 +37,7 @@ class Vault:
             self.entries = {}
     
     def _save(self):
+        """Encrypt and save the vault to disk."""
         os.makedirs(os.path.dirname(VAULT_FILE), exist_ok=True)
         
         json_data = json.dumps(self.entries)
@@ -51,6 +52,7 @@ class Vault:
         print("✅ Vault saved.")
     
     def add_entry(self, service: str, username: str, password: str):
+        """Add a new password entry."""
         if service in self.entries:
             overwrite = input(f"⚠️  Service '{service}' exists. Overwrite? (y/n): ").lower()
             if overwrite != 'y':
@@ -65,6 +67,7 @@ class Vault:
         print(f"✅ Password for '{service}' added!")
     
     def get_entry(self, service: str) -> Optional[Dict]:
+        """Retrieve a password entry."""
         if service not in self.entries:
             print(f"❌ Service '{service}' not found.")
             return None
@@ -77,6 +80,7 @@ class Vault:
         return entry
     
     def list_entries(self):
+        """List all stored services."""
         if not self.entries:
             print("📭 Vault is empty.")
             return
@@ -89,6 +93,7 @@ class Vault:
         print(f"Total: {len(self.entries)} entries")
     
     def delete_entry(self, service: str):
+        """Delete a password entry."""
         if service not in self.entries:
             print(f"❌ Service '{service}' not found.")
             return
@@ -100,7 +105,7 @@ class Vault:
             print(f"✅ '{service}' deleted.")
     
     def generate_and_add(self, service: str, username: str, length: int = 16):
+        """Generate a strong password and add it."""
         password = generate_password(length)
         self.add_entry(service, username, password)
         print(f"🔐 Generated password: {password}")
-"@ | Out-File -FilePath vault.py -Encoding utf8
