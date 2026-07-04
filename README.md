@@ -13,10 +13,12 @@ A secure CLI password manager with AES-GCM encryption and Argon2id hashing.
 
 ## Installation
 
-\`\`\`bash
+
 # Clone the repository
+```bash
 git clone https://github.com/yazuu07/password-manager.git
 cd password-manager
+```
 
 # Install dependencies
 pip install -r requirements.txt
